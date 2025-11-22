@@ -20,10 +20,10 @@
       display: block;
     }
 
-    /* FIXED POSITION BUTTON – always visible, 55% down the screen */
+    /* FIXED POSITION BUTTON – always visible, ~55% down the screen */
     #swapBtn {
       position: fixed;
-      top: 55vh;        /* <-- THIS sets exact vertical position */
+      top: 55vh;        /* adjust this if you want higher/lower */
       left: 50%;
       transform: translateX(-50%);
       width: 80%;
@@ -39,7 +39,7 @@
       color: #fff;
 
       cursor: pointer;
-      z-index: 9999;    /* always clickable */
+      z-index: 9999;
     }
   </style>
 </head>
@@ -49,8 +49,8 @@
   <!-- Default image -->
   <img id="heroImg" src="IMG_0364.png" alt="image" />
 
-  <!-- Button floating over page -->
-  <button id="swapBtn">Hold for after-hours mode</button>
+  <!-- Button floating above page -->
+  <button id="swapBtn">Call me</button>
 
   <script>
     const img = document.getElementById("heroImg");
@@ -61,7 +61,7 @@
 
     function hapticImpact() {
       if (navigator.vibrate) {
-        navigator.vibrate([50, 60, 50]);  // Stronger pattern
+        navigator.vibrate([50, 60, 50]);
       }
     }
 
@@ -79,7 +79,7 @@
     btn.addEventListener("mouseup", release);
     btn.addEventListener("mouseleave", release);
 
-    // Touch (iPhone reliable)
+    // Touch events (iPhone reliable)
     btn.addEventListener("touchstart", e => {
       e.preventDefault();
       press();
