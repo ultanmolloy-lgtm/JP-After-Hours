@@ -58,7 +58,7 @@
   <div class="card">
 
     <!-- BIG BUTTON ABOVE IMAGE -->
-    <button id="swapBtn">Call me</button>
+    <button id="swapBtn">Hold for after-hours mode</button>
 
     <!-- DEFAULT IMAGE SHOWN ON NFC SCAN -->
     <img
@@ -76,7 +76,14 @@
     const normalSrc = "IMG_0364.png";            // friendly image
     const spicySrc  = "jp-after-hours-fuck.png"; // angry image
 
+    function vibrate() {
+      if (navigator.vibrate) {
+        navigator.vibrate(60); // 60ms vibration haptic
+      }
+    }
+
     function press() {
+      vibrate();     // <-- trigger haptic
       img.src = spicySrc;
     }
 
