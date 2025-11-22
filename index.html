@@ -9,66 +9,48 @@
     body {
       margin: 0;
       background: #f0e0c2;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
     }
 
-    .screen {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Hero image at the top */
-    .hero {
+    /* Top image – takes natural height */
+    #heroImg {
       width: 100%;
-      border-bottom: 1px solid #0002;
+      height: auto;
+      display: block;
     }
 
-    /* Push button down a bit but not too far */
-    .spacer {
-      flex: 0 0 20vh; /* about 20% of screen height */
-    }
-
-    .buttonContainer {
-      display: flex;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-
+    /* FIXED POSITION BUTTON – always visible, 55% down the screen */
     #swapBtn {
+      position: fixed;
+      top: 55vh;        /* <-- THIS sets exact vertical position */
+      left: 50%;
+      transform: translateX(-50%);
       width: 80%;
       max-width: 380px;
+
       padding: 1.2rem;
       font-size: 1.35rem;
       font-weight: 700;
-      border-radius: 0.75rem;
+
       border: none;
+      border-radius: 0.75rem;
       background: #111;
       color: #fff;
+
       cursor: pointer;
+      z-index: 9999;    /* always clickable */
     }
   </style>
 </head>
 
 <body>
 
-  <div class="screen">
+  <!-- Default image -->
+  <img id="heroImg" src="IMG_0364.png" alt="image" />
 
-    <img id="heroImg"
-         src="IMG_0364.png"
-         class="hero"
-         alt="image" />
-
-    <!-- spacer lifts button UP instead of down -->
-    <div class="spacer"></div>
-
-    <div class="buttonContainer">
-      <button id="swapBtn">Call me</button>
-    </div>
-  </div>
+  <!-- Button floating over page -->
+  <button id="swapBtn">Hold for after-hours mode</button>
 
   <script>
     const img = document.getElementById("heroImg");
@@ -79,23 +61,8 @@
 
     function hapticImpact() {
       if (navigator.vibrate) {
-        navigator.vibrate([30, 40, 30]);
+        navigator.vibrate([50, 60, 50]);  // Stronger pattern
       }
-
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.frequency.value = 120;
-        gain.gain.value = 0.002;
-
-        osc.start(0);
-        osc.stop(0.05);
-      } catch (e) {}
     }
 
     function press() {
@@ -107,10 +74,27 @@
       img.src = normalSrc;
     }
 
-    // Mouse events
+    // Mouse
     btn.addEventListener("mousedown", press);
     btn.addEventListener("mouseup", release);
     btn.addEventListener("mouseleave", release);
 
-    // Touch events
-    btn.addEventListener("touchstart", e
+    // Touch (iPhone reliable)
+    btn.addEventListener("touchstart", e => {
+      e.preventDefault();
+      press();
+    });
+
+    btn.addEventListener("touchend", e => {
+      e.preventDefault();
+      release();
+    });
+
+    btn.addEventListener("touchcancel", e => {
+      e.preventDefault();
+      release();
+    });
+  </script>
+
+</body>
+</html>
