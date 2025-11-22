@@ -8,6 +8,7 @@
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       background: #f0e0c2;
@@ -16,7 +17,9 @@
       align-items: center;
       justify-content: center;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 1rem;
     }
+
     .card {
       background: #f5e4c4;
       padding: 1rem;
@@ -26,46 +29,52 @@
       max-width: 420px;
       width: 100%;
     }
+
     .hero {
       width: 100%;
       height: auto;
       border-radius: 0.75rem;
       display: block;
     }
-    button {
-      margin-top: 1rem;
-      padding: 0.9rem 1.5rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 999px;
+
+    /* BIGGER BUTTON ON TOP */
+    #swapBtn {
+      display: block;
+      width: 100%;
+      padding: 1.2rem 1rem;
+      font-size: 1.35rem;
+      font-weight: 700;
+      border-radius: 0.75rem;
       border: none;
       cursor: pointer;
       background: #111;
       color: #f9f9f9;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <!-- DEFAULT IMAGE (friendly one) -->
+
+    <!-- BIG BUTTON ABOVE IMAGE -->
+    <button id="swapBtn">Call me</button>
+
+    <!-- DEFAULT IMAGE SHOWN ON NFC SCAN -->
     <img
       id="heroImg"
       src="IMG_0364.png"
       alt="If you need help just call me and..."
       class="hero"
     />
-
-    <!-- BUTTON THAT SWAPS IMAGE WHILE PRESSED -->
-    <button id="swapBtn">Call me</button>
   </div>
 
   <script>
     const img = document.getElementById("heroImg");
     const btn = document.getElementById("swapBtn");
 
-    const normalSrc = "IMG_0364.png";
-    const spicySrc = "jp-after-hours-fuck.png";
+    const normalSrc = "IMG_0364.png";            // friendly image
+    const spicySrc  = "jp-after-hours-fuck.png"; // angry image
 
     function press() {
       img.src = spicySrc;
@@ -75,14 +84,14 @@
       img.src = normalSrc;
     }
 
-    // Mouse events
+    // Mouse controls
     btn.addEventListener("mousedown", press);
     btn.addEventListener("mouseup", release);
     btn.addEventListener("mouseleave", release);
 
-    // Touch events (phones)
+    // Touch controls (iPhone/Android)
     btn.addEventListener("touchstart", (e) => {
-      e.preventDefault(); // avoid ghost click
+      e.preventDefault();
       press();
     });
 
@@ -96,5 +105,6 @@
       release();
     });
   </script>
+
 </body>
 </html>
