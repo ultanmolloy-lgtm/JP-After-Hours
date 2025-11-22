@@ -5,14 +5,17 @@
   <title>JP After Hours</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       background: #f0e0c2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
-      font-family: system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     .card {
       background: #f5e4c4;
@@ -20,45 +23,56 @@
       border-radius: 1rem;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       text-align: center;
+      max-width: 420px;
+      width: 100%;
     }
     .hero {
       width: 100%;
-      max-width: 420px;
+      height: auto;
       border-radius: 0.75rem;
+      display: block;
     }
     button {
       margin-top: 1rem;
-      padding: 0.8rem 1.4rem;
-      font-size: 1.1rem;
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
       font-weight: 600;
-      border: none;
       border-radius: 999px;
+      border: none;
       cursor: pointer;
       background: #111;
-      color: white;
+      color: #f9f9f9;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <img id="heroImg" src="jp-after-hours.png" class="hero" alt="image" />
+    <!-- DEFAULT IMAGE (friendly one) -->
+    <img
+      id="heroImg"
+      src="IMG_0364.png"
+      alt="If you need help just call me and..."
+      class="hero"
+    />
 
-    <button id="swapBtn">Hold For More Info</button>
+    <!-- BUTTON THAT SWAPS IMAGE WHILE PRESSED -->
+    <button id="swapBtn">Call me</button>
   </div>
 
   <script>
     const img = document.getElementById("heroImg");
     const btn = document.getElementById("swapBtn");
 
-    // Swap on press (mouse or touch)
+    const normalSrc = "IMG_0364.png";
+    const spicySrc = "jp-after-hours-fuck.png";
+
     function press() {
-      img.src = "jp-after-hours.jpeg";
+      img.src = spicySrc;
     }
 
-    // Revert on release
     function release() {
-      img.src = "jp-after-hours.png";
+      img.src = normalSrc;
     }
 
     // Mouse events
@@ -67,10 +81,20 @@
     btn.addEventListener("mouseleave", release);
 
     // Touch events (phones)
-    btn.addEventListener("touchstart", press);
-    btn.addEventListener("touchend", release);
-    btn.addEventListener("touchcancel", release);
-  </script>
+    btn.addEventListener("touchstart", (e) => {
+      e.preventDefault(); // avoid ghost click
+      press();
+    });
 
+    btn.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      release();
+    });
+
+    btn.addEventListener("touchcancel", (e) => {
+      e.preventDefault();
+      release();
+    });
+  </script>
 </body>
 </html>
