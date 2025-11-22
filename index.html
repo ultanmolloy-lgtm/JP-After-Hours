@@ -20,10 +20,10 @@
       display: block;
     }
 
-    /* FIXED POSITION BUTTON – always visible, ~65% down the screen */
+    /* FIXED POSITION BUTTON – about 60% down the screen */
     #swapBtn {
       position: fixed;
-      top: 65vh;        /* adjust this if you want higher/lower */
+      top: 60vh;        /* <- moved slightly lower */
       left: 50%;
       transform: translateX(-50%);
       width: 80%;
@@ -49,7 +49,7 @@
   <!-- Default image -->
   <img id="heroImg" src="IMG_0364.png" alt="image" />
 
-  <!-- Button floating above page -->
+  <!-- Button floating over the page -->
   <button id="swapBtn">Call me</button>
 
   <script>
@@ -59,9 +59,30 @@
     const normalSrc = "IMG_0364.png";
     const spicySrc  = "jp-after-hours-fuck.png";
 
+    // Strong haptic impact: vibration + micro audio click for iPhone
     function hapticImpact() {
+      // Android + some iPhones
       if (navigator.vibrate) {
-        navigator.vibrate([50, 60, 50]);
+        navigator.vibrate([80, 60, 80]);
+      }
+
+      // iPhone fallback using tiny audio "click"
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "square";
+        osc.frequency.setValueAtTime(150, ctx.currentTime);
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 0.07);
+      } catch (e) {
+        // ignore if blocked
       }
     }
 
@@ -74,12 +95,12 @@
       img.src = normalSrc;
     }
 
-    // Mouse
+    // Mouse events
     btn.addEventListener("mousedown", press);
     btn.addEventListener("mouseup", release);
     btn.addEventListener("mouseleave", release);
 
-    // Touch events (iPhone reliable)
+    // Touch events (iPhone / Android)
     btn.addEventListener("touchstart", e => {
       e.preventDefault();
       press();
