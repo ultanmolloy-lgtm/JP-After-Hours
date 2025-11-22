@@ -15,29 +15,27 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* container fills full screen */
     .screen {
       flex: 1;
       display: flex;
       flex-direction: column;
     }
 
-    /* hero image stays at top */
+    /* Hero image at the top */
     .hero {
       width: 100%;
       border-bottom: 1px solid #0002;
     }
 
-    /* spacer pushes button down */
+    /* Push button down a bit but not too far */
     .spacer {
-      flex: 1 1 auto;
+      flex: 0 0 20vh; /* about 20% of screen height */
     }
 
-    /* set the button at 66% down the screen */
     .buttonContainer {
       display: flex;
       justify-content: center;
-      padding-bottom: 2rem;
+      margin-top: 1rem;
     }
 
     #swapBtn {
@@ -58,21 +56,19 @@
 <body>
 
   <div class="screen">
-    <!-- Top image -->
+
     <img id="heroImg"
          src="IMG_0364.png"
          class="hero"
          alt="image" />
 
-    <!-- spacer that pushes the button down -->
+    <!-- spacer lifts button UP instead of down -->
     <div class="spacer"></div>
 
-    <!-- button located ~ 2/3 down -->
     <div class="buttonContainer">
       <button id="swapBtn">Hold for after-hours mode</button>
     </div>
   </div>
-
 
   <script>
     const img = document.getElementById("heroImg");
@@ -86,7 +82,6 @@
         navigator.vibrate([30, 40, 30]);
       }
 
-      // iPhone fallback haptic
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = audioCtx.createOscillator();
@@ -112,27 +107,10 @@
       img.src = normalSrc;
     }
 
-    // Mouse
+    // Mouse events
     btn.addEventListener("mousedown", press);
     btn.addEventListener("mouseup", release);
     btn.addEventListener("mouseleave", release);
 
-    // Touch
-    btn.addEventListener("touchstart", e => {
-      e.preventDefault();
-      press();
-    });
-
-    btn.addEventListener("touchend", e => {
-      e.preventDefault();
-      release();
-    });
-
-    btn.addEventListener("touchcancel", e => {
-      e.preventDefault();
-      release();
-    });
-  </script>
-
-</body>
-</html>
+    // Touch events
+    btn.addEventListener("touchstart", e
