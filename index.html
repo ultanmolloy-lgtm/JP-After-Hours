@@ -5,96 +5,72 @@
   <title>JP After Hours</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #f0e0c2;
       display: flex;
-      min-height: 100vh;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
     }
     .card {
       background: #f5e4c4;
-      padding: 1.5rem;
+      padding: 1rem;
       border-radius: 1rem;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      max-width: 420px;
-      width: 100%;
       text-align: center;
     }
     .hero {
       width: 100%;
-      height: auto;
+      max-width: 420px;
       border-radius: 0.75rem;
-      display: block;
-      margin-bottom: 1.25rem;
-    }
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
     }
     button {
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
+      margin-top: 1rem;
+      padding: 0.8rem 1.4rem;
+      font-size: 1.1rem;
       font-weight: 600;
-    }
-    #callBtn {
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
       background: #111;
-      color: #f9f9f9;
-    }
-    #extraBtn {
-      background: #d9a846;
-      color: #111;
-    }
-    .hidden {
-      display: none;
+      color: white;
     }
   </style>
 </head>
 <body>
+
   <div class="card">
-    <!-- Use the exact filename you uploaded -->
-    <img src="jp-after-hours.png" alt="If you need help just call me..." class="hero" />
+    <img id="heroImg" src="jp-after-hours.png" class="hero" alt="image" />
 
-    <div class="buttons">
-      <!-- MAIN CALL BUTTON -->
-      <button id="callBtn">
-        Call me
-      </button>
-
-      <!-- THIS ONE STARTS HIDDEN AND IS REVEALED AFTER CLICK -->
-      <button id="extraBtn" class="hidden">
-        Or tap here for more help
-      </button>
-    </div>
+    <button id="swapBtn">Hold For More Info</button>
   </div>
 
   <script>
-    const callBtn  = document.getElementById("callBtn");
-    const extraBtn = document.getElementById("extraBtn");
+    const img = document.getElementById("heroImg");
+    const btn = document.getElementById("swapBtn");
 
-    callBtn.addEventListener("click", () => {
-      // reveal the second button
-      extraBtn.classList.remove("hidden");
+    // Swap on press (mouse or touch)
+    function press() {
+      img.src = "jp-after-hours.jpeg";
+    }
 
-      // OPTIONAL: actually start a call (replace with your real number)
-      // window.location.href = "tel:+15551234567";
-    });
+    // Revert on release
+    function release() {
+      img.src = "jp-after-hours.png";
+    }
 
-    extraBtn.addEventListener("click", () => {
-      // Do whatever you want with the second button:
-      // e.g. open a link, WhatsApp, email, another page, etc.
-      // window.location.href = "mailto:you@example.com";
-      alert("Second action goes here!");
-    });
+    // Mouse events
+    btn.addEventListener("mousedown", press);
+    btn.addEventListener("mouseup", release);
+    btn.addEventListener("mouseleave", release);
+
+    // Touch events (phones)
+    btn.addEventListener("touchstart", press);
+    btn.addEventListener("touchend", release);
+    btn.addEventListener("touchcancel", release);
   </script>
+
 </body>
 </html>
